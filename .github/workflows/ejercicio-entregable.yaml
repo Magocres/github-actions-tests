@@ -32,22 +32,20 @@ jobs:
   
   procesamiento:
     needs: ci_security
-    runs-on: ubuntu:latest
-    strategy:
-      matrix:
-        entorno: [staging, production]
+    runs-on: ubuntu-latest
+
     steps:
       - name: Checkout del repositorio
         uses: actions/checkout@v4
-      
+
       - name: Generación del archivo de Reporte
-        run: echo "${{ matrix.entorno }}" > reporte_${{ matrix.entorno }}.txt
-      
-      - name: Subir Reportes como Artefactos
+        run: echo "staging" > reporte_staging.txt
+
+      - name: Subir artefacto del reporte
         uses: actions/upload-artifact@v4
         with:
-          name: reporte-${{ matrix.entorno }}
-          path: reporte_${{ matrix.entorno }}.txt
+          name: reporte-staging
+          path: reporte_staging.txt
 
   notificacion_exito:
     needs: [ci_security, procesamiento]
