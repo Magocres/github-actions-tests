@@ -48,3 +48,10 @@ jobs:
         with:
           name: reporte-${{ matrix.entorno }}
           path: reporte_${{ matrix.entorno }}.txt
+
+  notificacion_exito:
+    needs: [ci_security, procesar_ventas]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notificación de éxito
+        run: echo "Notificación enviada a ${{ secrets.DISCORD_WEBHOOK }}"
