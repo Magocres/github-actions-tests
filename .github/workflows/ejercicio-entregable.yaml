@@ -41,7 +41,7 @@ jobs:
         uses: actions/checkout@v4
       
       - name: Generación del archivo de Reporte
-        run: echo "Archivo de Reporte para ${{ matrix.entorno }}" > reporte_${{ matrix.entorno }}.txt
+        run: echo "${{ matrix.entorno }}" > reporte_${{ matrix.entorno }}.txt
       
       - name: Subir Reportes como Artefactos
         uses: actions/upload-artifact@v4
