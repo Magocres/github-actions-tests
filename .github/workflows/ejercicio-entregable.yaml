@@ -50,7 +50,7 @@ jobs:
           path: reporte_${{ matrix.entorno }}.txt
 
   notificacion_exito:
-    needs: [ci_security, procesar_ventas]
+    needs: [ci_security, procesamiento]
     runs-on: ubuntu-latest
     steps:
       - name: Notificación de éxito
