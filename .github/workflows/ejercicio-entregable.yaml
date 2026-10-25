@@ -12,7 +12,7 @@ on:
           - "no"
 
 jobs:
-  ci_security:
+  ci_seguridad:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout del repositorio
@@ -31,24 +31,26 @@ jobs:
         run: echo "Se ha completado con éxito el Escaneo de Seguridad"
   
   procesamiento:
-    needs: ci_security
-    runs-on: ubuntu-latest
-
+    needs: ci_seguridad
+    runs-on: ubuntu:latest
+    strategy:
+      matrix:
+        entorno: [staging, production]
     steps:
       - name: Checkout del repositorio
         uses: actions/checkout@v4
-
+      
       - name: Generación del archivo de Reporte
-        run: echo "staging" > reporte_staging.txt
-
-      - name: Subir artefacto del reporte
+        run: echo "${{ matrix.entorno }}" > reporte_${{ matrix.entorno }}.txt
+      
+      - name: Subir Reportes como Artefactos
         uses: actions/upload-artifact@v4
         with:
-          name: reporte-staging
-          path: reporte_staging.txt
+          name: reporte-${{ matrix.entorno }}
+          path: reporte_${{ matrix.entorno }}.txt
 
   notificacion_exito:
-    needs: [ci_security, procesamiento]
+    needs: [ci_seguridad, procesamiento]
     runs-on: ubuntu-latest
     steps:
       - name: Notificación de éxito
